@@ -28,6 +28,10 @@ QList<Player> Model::getUpdatedPlayers()
 
     return players.values();
 }
+Player * Model::getSelf()
+{
+    return  &players[name];
+}
 
 QList<Bullet> Model::getUpdatedBullets()
 {

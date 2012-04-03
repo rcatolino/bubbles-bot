@@ -1,5 +1,7 @@
 #include "actor.h"
-
+Actor::Actor()
+{
+}
 Actor::Actor(QString id, float x, float y, float z,
                float vx, float vy, float vz)
 {
@@ -42,39 +44,39 @@ QString Actor::getId(){
     return id;
 }
 
-float Actor::getX(){
+float Actor::getX() const{
     return x;
 }
 
-float Actor::getY(){
+float Actor::getY() const{
     return y;
 }
 
-float Actor::getZ(){
+float Actor::getZ() const{
     return z;
 }
 
-float Actor::getVx(){
+float Actor::getVx() const{
     return vx;
 }
 
-float Actor::getVy(){
+float Actor::getVy() const{
     return vy;
 }
 
-float Actor::getVz(){
+float Actor::getVz() const{
     return vz;
 }
 
-float Actor::getWidth(){
+float Actor::getWidth() const{
     return width;
 }
 
-float Actor::getLength(){
+float Actor::getLength() const{
     return length;
 }
 
-float Actor::getHeight(){
+float Actor::getHeight() const{
     return height;
 }
 

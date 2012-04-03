@@ -7,21 +7,22 @@
 class Actor
 {
 public:
+    Actor();
     Actor(QString id, float x, float y, float z,
                    float vx, float vy, float vz);
     Actor(QVariantMap dict);
     QString toString();
-    float getX();
-    float getY();
-    float getZ();
-    float getVx();
-    float getVy();
-    float getVz();
+    float getX() const;
+    float getY() const;
+    float getZ() const;
+    float getVx() const;
+    float getVy() const;
+    float getVz() const;
     QString getId();
     QString getName();
-    float getWidth();
-    float getLength();
-    float getHeight();
+    float getWidth() const;
+    float getLength() const;
+    float getHeight() const;
     int getCube();
 
     QString id;

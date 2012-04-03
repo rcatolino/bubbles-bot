@@ -1,6 +1,8 @@
 #include "player.h"
 
+Player::Player(){
 
+}
 
 Player::Player(QVariantMap map)
     :Actor(map)
