@@ -18,6 +18,7 @@ public slots:
 
  private:
     NetworkClient * nc;
+    int lastTarget;
 };
 
 #endif // GAMEAPP_H

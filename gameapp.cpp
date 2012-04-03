@@ -6,18 +6,21 @@
 GameApp::GameApp(QObject *parent) :
     QObject(parent)
 {
+    lastTarget=0;
 }
 
 void GameApp::up()
 {
-    Player * target;
+    const Player * target;
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getUpdatedPlayers());
-    qDebug() << mod->getUpdatedPlayers().size();
-    qDebug() << "Retreived players positions";
-    mod->updateKeys("UP",false);
-    if (!players.isEmpty()){
-        target = &(players.back());
+    //qDebug() << mod->getUpdatedPlayers().size();
+    int nbPlayers = mod->getUpdatedPlayers().size();
+    if (nbPlayers > 1){
+        target = &(players.at((lastTarget++)%nbPlayers));
+        if (target->name==mod->getName()){
+            return; //don't shot yourself!!
+        }
         qDebug() << "Target chosen";
         mod->shot(target->x,target->y,target->z);
         qDebug() << "Target shot";
