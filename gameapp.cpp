@@ -13,24 +13,24 @@ void GameApp::up()
 {
     const Player * target;
     const Player * self;
-    const int ratio = 180;
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getUpdatedPlayers());
-    //qDebug() << mod->getUpdatedPlayers().size();
-    int nbPlayers = mod->getUpdatedPlayers().size();
+    int nbPlayers = players.size();
     if (nbPlayers > 1){
 
         target = &(players.at((lastTarget++)%nbPlayers));
-        self = &(players.at((lastTarget)%nbPlayers));
+        qDebug() << lastTarget;
+        self = &mod->getSelf();
         if (target->name==mod->getName()){
             return; //don't shot yourself!!
         }
-        qDebug() << "Target chosen";
+        //qDebug() << "Target chosen";
         mod->shot(target->getX()-self->getX(),target->getY()-self->getY(),target->getZ()-self->getZ());
-        qDebug() << "Target shot at " << target->x/ratio << target->y/ratio << target->z/ratio;
-        qDebug() << "self is at " << self->x << self->y << self->z;
+        //qDebug() << "bot is in :" << self->getX() << self->getY() << self->getZ();
+        //qDebug() << "player is in :" << target->getX() << target->getY() << target->getZ();
+        //qDebug() << "fireing at :" << target->getX()-self->getX() << target->getY()-self->getY()<< target->getZ()-self->getZ();
     } else {
-        qDebug() << "No target";
+        //qDebug() << "No target";
     }
 }
 void GameApp::endOfThread()

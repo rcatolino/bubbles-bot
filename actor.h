@@ -18,7 +18,7 @@ public:
     float getVx() const;
     float getVy() const;
     float getVz() const;
-    QString getId();
+    QString getId() const;
     QString getName();
     float getWidth() const;
     float getLength() const;

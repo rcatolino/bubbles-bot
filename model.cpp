@@ -11,6 +11,10 @@ Model::Model()
 {
 }
 
+const Player & Model::getSelf()
+{
+    return players[name];
+}
 Model* Model::getInstance()
 {
     if (Model::instance == NULL)
@@ -27,10 +31,6 @@ QList<Player> Model::getUpdatedPlayers()
     QMutexLocker locker(&mutex);
 
     return players.values();
-}
-Player * Model::getSelf()
-{
-    return  &players[name];
 }
 
 QList<Bullet> Model::getUpdatedBullets()
@@ -59,7 +59,7 @@ void Model::setUpdatedPlayers(QString json)
     foreach(QVariant obj, result["players"].toList()){
         Player p(obj.toMap());
         addUpdatedPlayer(p);
-        diff.remove(p.id);
+        diff.remove(p.name);
     }
 
     foreach(QString s, diff){
@@ -105,7 +105,7 @@ void Model::setUpdatedObstacles(QString json)
 void Model::addUpdatedPlayer(Player p)
 {
     QMutexLocker locker(&mutex);
-    players.insert(p.id, p);
+    players.insert(p.name, p);
 }
 
 void Model::addUpdatedBullet(Bullet b)

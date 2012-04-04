@@ -39,7 +39,7 @@ public:
     void setMap(QString json);
     int getMapWidth();
     int getMapLength();
-    Player * getSelf();
+    const Player & getSelf();
 
 
 

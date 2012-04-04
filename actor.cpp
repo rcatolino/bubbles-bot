@@ -40,7 +40,7 @@ QString Actor::toString()
     return str;
 }
 
-QString Actor::getId(){
+QString Actor::getId() const{
     return id;
 }
 
