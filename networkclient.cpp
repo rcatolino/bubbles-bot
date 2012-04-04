@@ -106,7 +106,7 @@ void NetworkClient::processIncommingData()
         }
 
         messages = toProcess[toProcess.size() - 1];
-        emit event();
+        //emit event();
     }
 }
 

@@ -15,10 +15,12 @@ signals:
 public slots:
     void endOfThread();
     void up();
+    void changeCourse();
 
  private:
     NetworkClient * nc;
     int lastTarget;
+    int dir;
 };
 
 #endif // GAMEAPP_H
