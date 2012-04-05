@@ -18,6 +18,7 @@ public:
     int getLife();
     int getDeaths();
     int getKills();
+    void update(QVariantMap map);
     QString getName();
 
     int life, deaths, kills;

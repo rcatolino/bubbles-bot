@@ -43,8 +43,12 @@ void NetworkClient::setName(QString name)
 
 void NetworkClient::init()
 {
-    qDebug() << "server name :" << name.toAscii();
     sock->write("init "+name.toAscii()+"$$");
+    QString mess =
+            "init "+name+" "+QString::number(255)+" "+QString::number(215)
+            +" "+QString::number(0)+"$$";
+    sock->write(mess.toAscii());
+    qDebug() << "server name :" << name.toAscii();
 }
 
 void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
@@ -80,6 +84,7 @@ void NetworkClient::send(QString mess)
 
 void NetworkClient::processIncommingData()
 {
+    /*
     QByteArray received = sock->readAll();
 
     QString curr(received);
@@ -106,7 +111,35 @@ void NetworkClient::processIncommingData()
         }
 
         messages = toProcess[toProcess.size() - 1];
-        //emit event();
+    }
+    */
+      QByteArray received = sock->readAll();
+    //qDebug() << "Received " <<  received;
+
+    QString curr(received);
+
+    messages += curr;
+
+    if (messages.contains("$$"))
+    {
+        QList<QString> toProcess = messages.split("$$");
+
+        for(int i=0; i < toProcess.size() - 1; i++)
+        {
+            Model * m = Model::getInstance();
+
+            if (toProcess[i].contains("field"))
+            {
+                m->setUpdatedObstacles(toProcess[i]);
+                m->setMap(toProcess[i]);
+            }
+
+            m->setUpdatedPlayers(toProcess[i]);
+            m->setUpdatedBullets(toProcess[i]);
+            m->setToClear(toProcess[i]);
+        }
+
+        messages = toProcess[toProcess.size() - 1];
     }
 }
 

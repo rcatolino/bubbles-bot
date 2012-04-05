@@ -88,4 +88,36 @@ int Actor::getCube()
 {
     return cube;
 }
+void Actor::update(QVariantMap map)
+{
+    //Position
+    if (map.contains("x"))
+        x = map["x"].toInt();
+    if (map.contains("y"))
+        y = map["y"].toInt();
+    if (map.contains("z"))
+        z = map["z"].toInt();
 
+    //Color
+    if (map.contains("r"))
+        r = map["r"].toInt();
+    if (map.contains("g"))
+        g = map["g"].toInt();
+    if (map.contains("b"))
+        b = map["b"].toInt();
+
+    if (map.contains("vx"))
+        vx = map["vx"].toFloat();
+    if (map.contains("vy"))
+        vy = map["vy"].toFloat();
+    if (map.contains("vz"))
+        vz = map["vz"].toFloat();
+    if (map.contains("w"))
+        width = map["w"].toFloat();
+    if (map.contains("h"))
+        height = map["h"].toFloat();
+    if (map.contains("l"))
+        length = map["l"].toFloat();
+    if (map.contains("cube"))
+        cube = map["cube"].toInt();
+}

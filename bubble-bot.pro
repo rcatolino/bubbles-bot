@@ -7,7 +7,7 @@
 QT       += core \
          += network
 
-QT       -= gui
+#QT       -= gui
 
 TARGET = bubble-bot
 CONFIG   += console

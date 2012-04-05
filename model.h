@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QTime>
+#include <QColor>
 
 #include "player.h"
 #include "bullet.h"
@@ -32,6 +33,8 @@ public:
     QList<Obstacles> getUpdatedObstacles();
     void setName(QString n);
     QString getName();
+    void setColor(QColor c);
+    QColor getColor();
     void updateKeys(QString name, bool state);
     void updateMouse(float x, float y, float z);
     void shot(float x, float y, float z);
@@ -39,17 +42,23 @@ public:
     void setMap(QString json);
     int getMapWidth();
     int getMapLength();
-    const Player & getSelf();
+    const Player * getSelf();
+    void updatePlayer(QVariant data);
+    void updateBullet(QVariant data);
+    void updateObstacle(QVariant data);
+    void setToClear(QString json);
 
 
 
 private:
     static Model * instance;
     Model();
-    QMap<QString, Player> players;
-    QMap<QString, Bullet> bullets;
-    QMap<QString, Obstacles> obstacles;
+    QMap<QString, Player*> players;
+    QMap<QString, Bullet*> bullets;
+    QMap<QString, Obstacles*> obstacles;
     QString name;
+    QColor color;
+    int life, id;
     QSet<QString> toClear;
     mutable QMutex mutex;
     QTime mouseTimeout;

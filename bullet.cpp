@@ -7,3 +7,7 @@ Bullet::Bullet(QVariantMap map)
     id = map["id"].toInt();
     id = map["id"].toString();
 }
+void Bullet::update(QVariantMap map)
+{
+    Actor::update(map);
+}

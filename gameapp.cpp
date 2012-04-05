@@ -20,11 +20,11 @@ void GameApp::up()
 
         target = &(players.at((lastTarget++)%nbPlayers));
         qDebug() << lastTarget;
-        self = &mod->getSelf();
+        self = mod->getSelf();
         if (target->name==mod->getName()){
             return; //don't shot yourself!!
         }
-        //qDebug() << "Target chosen";
+        qDebug() << "Target chosen";
         mod->shot(target->getX()-self->getX(),target->getY()-self->getY(),target->getZ()-self->getZ());
         //qDebug() << "bot is in :" << self->getX() << self->getY() << self->getZ();
         //qDebug() << "player is in :" << target->getX() << target->getY() << target->getZ();
