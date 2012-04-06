@@ -42,7 +42,7 @@ int Player::getDeaths()
 }
 
 
-QString Player::getName()
+QString Player::getName() const
 {
     return name;
 }

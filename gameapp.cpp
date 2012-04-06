@@ -13,6 +13,7 @@ void GameApp::up()
 {
     const Player * target;
     const Player * self;
+    float svx, svy, svz;
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getUpdatedPlayers());
     int nbPlayers = players.size();
@@ -25,7 +26,11 @@ void GameApp::up()
             return; //don't shot yourself!!
         }
         qDebug() << "Target chosen";
+        svx=self->getVx();
+        svy=self->getVy();
+        svz=self->getVz();
         mod->shot(target->getX()-self->getX(),target->getY()-self->getY(),target->getZ()-self->getZ());
+        nc->sendMouseState(svx,svy,svz);
         //qDebug() << "bot is in :" << self->getX() << self->getY() << self->getZ();
         //qDebug() << "player is in :" << target->getX() << target->getY() << target->getZ();
         //qDebug() << "fireing at :" << target->getX()-self->getX() << target->getY()-self->getY()<< target->getZ()-self->getZ();
@@ -33,13 +38,15 @@ void GameApp::up()
         //qDebug() << "No target";
     }
 }
-void GameApp::endOfThread()
-{
-    //qDebug() << "lol";
-}
 void GameApp::changeCourse()
 {
     Model * mod = Model::getInstance();
+    const Player * target = mod->getBestPlayer();
+    qDebug() << "target name :" << target->getName();
+    const Player * self = mod->getSelf();
+    if (self!=target){
+        mod->shot(target->getX()-self->getX(),target->getY()-self->getY(),target->getZ()-self->getZ());
+    }
     switch (dir){
         case 0 :
             mod->updateKeys("UP",false);
@@ -61,24 +68,33 @@ void GameApp::changeCourse()
             mod->updateKeys("UP",true);
             dir=(dir+1)%4;
             break;
-            /*
-        case 5 :
-            mod->updateKeys("RIGHT",false);
-            mod->updateKeys("UP",true);
-            dir++;
-            break;
-        case 6 :
-            mod->updateKeys("UP",false);
-            mod->updateKeys("DOWN",true);
-            dir++;
-            break;
-        case 7 :
-            mod->updateKeys("DOWN",false);
-            mod->updateKeys("UP",true);
-            dir=(dir+1)%8;
-            break;
-            */
     }
+}
+void GameApp::chooseDirection()
+{
+    Model * mod = Model::getInstance();
+    QList<Obstacles> obstacles = mod->getUpdatedObstacles();
+    Obstacles * ob;
+    const Player * self = mod->getSelf();
+    int minId=-1;
+    float minDis=400;
+    for (int i=0; i<obstacles.size(); ++i)
+    {
+        float distance = obstacles[i].getDistance(self);
+        if (distance < 400) {
+            if (i>minId && distance<minDis){
+                minId=i;
+                minDis=distance;
+            }
+            qDebug() << "distance :" << distance << " width :" <<obstacles[i].getWidth() \
+                     << "length :" << obstacles[i].getLength() << "height :" << obstacles[i].getHeight();
+        }
+    }
+    if (minId>-1) {
+        ob=&obstacles[minId];
+        nc->sendMouseState(self->getX()-ob->getX(),self->getY()-ob->getY(),self->getZ()-ob->getZ());
+    }
+    mod->updateKeys("UP",true);
 }
 void GameApp::run(QString name, QString server, QString port)
 {
@@ -90,6 +106,9 @@ void GameApp::run(QString name, QString server, QString port)
     QTimer * shotTimer = new QTimer;
     connect(shotTimer,SIGNAL(timeout()),this,SLOT(up()));
     shotTimer->start(40);
+    QTimer * dirTimer = new QTimer;
+    connect(dirTimer,SIGNAL(timeout()),this,SLOT(chooseDirection()));
+    dirTimer->start(400);
     nc = new NetworkClient(this);
     nc->startOn(server,port.toShort());
     qDebug() << "Bot '" << name <<"' connected on server " << server <<":"<< port;

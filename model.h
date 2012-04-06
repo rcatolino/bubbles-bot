@@ -47,6 +47,7 @@ public:
     void updateBullet(QVariant data);
     void updateObstacle(QVariant data);
     void setToClear(QString json);
+    const Player * getBestPlayer();
 
 
 

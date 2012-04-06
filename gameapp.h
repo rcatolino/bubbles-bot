@@ -13,9 +13,9 @@ public:
 
 signals:
 public slots:
-    void endOfThread();
     void up();
     void changeCourse();
+    void chooseDirection();
 
  private:
     NetworkClient * nc;

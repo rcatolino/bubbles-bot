@@ -18,6 +18,18 @@ const Player * Model::getSelf()
    qDebug() << "sid :" << sid;
     return players[sid];
 }
+const Player * Model::getBestPlayer()
+{
+    Player * bp=*(players.begin());
+    Player * p;
+    foreach(p,players){
+        if (p->deaths < bp->deaths)
+        {
+            bp=p;
+        }
+    }
+   return bp;
+}
 Model* Model::getInstance()
 {
     if (Model::instance == NULL)

@@ -1,4 +1,6 @@
 #include "actor.h"
+#include <QtCore/qmath.h>
+
 Actor::Actor()
 {
 }
@@ -13,7 +15,6 @@ Actor::Actor(QString id, float x, float y, float z,
     this->vy = vy;
     this->vz = vz;
 }
-
 Actor::Actor(QVariantMap map)
 {
     //Safegard 'cause default value changes ...
@@ -31,6 +32,14 @@ Actor::Actor(QVariantMap map)
     height = map["h"].toFloat();
     length = map["l"].toFloat();
     cube = map["cube"].toInt();
+}
+
+float Actor::getDistance(const Actor * self)
+{
+    float sx = self->getX();
+    float sy = self->getY();
+    float sz = self->getZ();
+    return sqrt((x-sx)*(x-sx)+(y-sy)*(y-sy)+(z-sz)*(z-sz));
 }
 
 QString Actor::toString()

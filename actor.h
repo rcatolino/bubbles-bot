@@ -24,6 +24,7 @@ public:
     float getLength() const;
     float getHeight() const;
     int getCube();
+    float getDistance(const Actor * self);
 
     void update(QVariantMap map);
     QString id;
