@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QVariant>
-
 class Actor
 {
 public:
@@ -25,6 +24,8 @@ public:
     float getHeight() const;
     int getCube();
     float getDistance(const Actor * self);
+    //vector getPos() const;
+    //vector getSight() const;
 
     void update(QVariantMap map);
     QString id;

@@ -76,7 +76,6 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
 
 void NetworkClient::send(QString mess)
 {
-    qDebug() << "Sent " << mess;
 
     sock->flush();
     sock->write((mess+"$$").toAscii());

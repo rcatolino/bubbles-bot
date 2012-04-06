@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     obstacles.cpp \
     bullet.cpp \
     actor.cpp \
-    gameapp.cpp
+    gameapp.cpp \
+    vector.cpp
 
 HEADERS += \
     networkclient.h \
@@ -32,6 +33,7 @@ HEADERS += \
     obstacles.h \
     bullet.h \
     actor.h \
-    gameapp.h
+    gameapp.h \
+    vector.h
 
 unix|win32: LIBS += -lqjson

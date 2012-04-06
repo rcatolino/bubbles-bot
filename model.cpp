@@ -19,18 +19,20 @@ const Player * Model::getSelf()
 }
 const Player * Model::getBestPlayer()
 {
-    Player * bp=*(players.begin());
-    if (bp->getName() == name && players.size() > 1){
-       bp=*(players.begin()++);
-    }
+    Player * bp=(Player*)0;
     Player * p;
     foreach(p,players){
-        if (p->kills >= bp->kills && (p->getName())!=name)
+        if ( p->getName()!=name && (bp==0 || p->kills >= bp->kills))
         {
             bp=p;
         }
     }
-    qDebug()<< "best player" <<bp->getName();
+    if (bp!=0)
+    {
+        qDebug()<< "best player" <<bp->getName();
+    } else {
+        bp=*(players.begin());
+    }
    return bp;
 }
 Model* Model::getInstance()
@@ -247,6 +249,29 @@ QList<QString> Model::getClearedActors(){
     return ret;
 }
 */
+
+bool Model::freeWay(const Actor * self, const Actor * target) const
+{
+    float cos=0;
+    float dp=0;
+    bool free=true;
+    Obstacles * ob;
+    vector v1,v2;
+    foreach (ob, obstacles)
+    {
+        v1=vector(self)-vector(ob);
+        v2=vector(self)-vector(target);
+        dp=v1.dotProduct(v2);
+        cos=dp/(v1.norm()*v2.norm());
+        if (cos >0.90 && (v1.norm()+self->getWidth()/2) < v2.norm())
+        {
+            //qDebug() << "distance bot<->player :" << v2.norm() << "distance bot<->obtacle :" << v1.norm();
+            free=false;
+        }
+    }
+    return free;
+
+}
 void Model::setMap(QString json)
 {
     QMutexLocker locker(&mutex);

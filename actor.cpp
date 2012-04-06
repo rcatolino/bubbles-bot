@@ -33,7 +33,16 @@ Actor::Actor(QVariantMap map)
     length = map["l"].toFloat();
     cube = map["cube"].toInt();
 }
-
+/*
+vector Actor::getPos()
+{
+    return vector(x,y,z);
+}
+vector Actor::getSight()
+{
+    return vector(vx,vy,vz);
+}
+*/
 float Actor::getDistance(const Actor * self)
 {
     float sx = self->getX();
@@ -41,7 +50,6 @@ float Actor::getDistance(const Actor * self)
     float sz = self->getZ();
     return sqrt((x-sx)*(x-sx)+(y-sy)*(y-sy)+(z-sz)*(z-sz));
 }
-
 QString Actor::toString()
 {
     QString str = "name : " + id + " x:" + x + " y:" + y + " z:" + z;

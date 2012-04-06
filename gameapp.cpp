@@ -18,7 +18,6 @@ void GameApp::up()
     QList<Player> players(mod->getUpdatedPlayers());
     int nbPlayers = players.size();
     if (nbPlayers > 1){
-
         target = mod->getBestPlayer();
         self = mod->getSelf();
         if (target->name==mod->getName()){
@@ -26,6 +25,11 @@ void GameApp::up()
             return; //don't shoot yourself!!
         }
         qDebug() << "Target chosen";
+        if(!mod->freeWay(self,target))
+        {
+            qDebug() << "There is an obstacle, don't shoot";
+            return; //There is an obstacle, don't shoot
+        }
         svx=self->getVx();
         svy=self->getVy();
         svz=self->getVz();
@@ -81,7 +85,7 @@ void GameApp::chooseDirection()
     for (int i=0; i<obstacles.size(); ++i)
     {
         float distance = obstacles[i].getDistance(self);
-        if (distance < 400) {
+        if (distance < 500) {
             if (i>minId && distance<minDis){
                 minId=i;
                 minDis=distance;
@@ -102,10 +106,10 @@ void GameApp::run(QString name, QString server, QString port)
     dir=0;
     QTimer * posTimer = new QTimer;
     connect(posTimer,SIGNAL(timeout()),this,SLOT(changeCourse()));
-    posTimer->start(1000);
+    posTimer->start(1500);
     QTimer * shotTimer = new QTimer;
     connect(shotTimer,SIGNAL(timeout()),this,SLOT(up()));
-    shotTimer->start(100);
+    shotTimer->start(140);
     QTimer * dirTimer = new QTimer;
     connect(dirTimer,SIGNAL(timeout()),this,SLOT(chooseDirection()));
     dirTimer->start(100);

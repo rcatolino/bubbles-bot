@@ -10,6 +10,7 @@
 #include <QTime>
 #include <QColor>
 
+#include "vector.h"
 #include "player.h"
 #include "bullet.h"
 #include "obstacles.h"
@@ -48,6 +49,7 @@ public:
     void updateObstacle(QVariant data);
     void setToClear(QString json);
     const Player * getBestPlayer();
+    bool freeWay(const Actor * self, const Actor * target) const;
 
 
 

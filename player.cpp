@@ -41,7 +41,6 @@ int Player::getDeaths()
     return deaths;
 }
 
-
 QString Player::getName() const
 {
     return name;
