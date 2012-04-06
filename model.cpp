@@ -13,21 +13,24 @@ Model::Model()
 
 const Player * Model::getSelf()
 {
-   QString sid;
-   sid.setNum(id);
-   qDebug() << "sid :" << sid;
+    QString sid;
+    sid.setNum(id);
     return players[sid];
 }
 const Player * Model::getBestPlayer()
 {
     Player * bp=*(players.begin());
+    if (bp->getName() == name && players.size() > 1){
+       bp=*(players.begin()++);
+    }
     Player * p;
     foreach(p,players){
-        if (p->deaths < bp->deaths)
+        if (p->kills >= bp->kills && (p->getName())!=name)
         {
             bp=p;
         }
     }
+    qDebug()<< "best player" <<bp->getName();
    return bp;
 }
 Model* Model::getInstance()

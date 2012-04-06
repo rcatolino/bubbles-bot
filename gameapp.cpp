@@ -19,11 +19,11 @@ void GameApp::up()
     int nbPlayers = players.size();
     if (nbPlayers > 1){
 
-        target = &(players.at((lastTarget++)%nbPlayers));
-        qDebug() << lastTarget;
+        target = mod->getBestPlayer();
         self = mod->getSelf();
         if (target->name==mod->getName()){
-            return; //don't shot yourself!!
+            qDebug() << "Don't shoot";
+            return; //don't shoot yourself!!
         }
         qDebug() << "Target chosen";
         svx=self->getVx();
@@ -105,10 +105,10 @@ void GameApp::run(QString name, QString server, QString port)
     posTimer->start(1000);
     QTimer * shotTimer = new QTimer;
     connect(shotTimer,SIGNAL(timeout()),this,SLOT(up()));
-    shotTimer->start(40);
+    shotTimer->start(100);
     QTimer * dirTimer = new QTimer;
     connect(dirTimer,SIGNAL(timeout()),this,SLOT(chooseDirection()));
-    dirTimer->start(400);
+    dirTimer->start(100);
     nc = new NetworkClient(this);
     nc->startOn(server,port.toShort());
     qDebug() << "Bot '" << name <<"' connected on server " << server <<":"<< port;
