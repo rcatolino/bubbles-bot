@@ -1,16 +1,13 @@
-#include <QtCore/QCoreApplication>
+//#include <QtCore/QCoreApplication>
+#include <QtGui/QApplication>
 #include "model.h"
 #include "gameapp.h"
+#include "gui.h"
 int main(int argc, char *argv[])
 {
-    GameApp ga;
-    QCoreApplication a(argc, argv);
-    if (argc < 4){
-        return 1;
-    }
-    Model * mod = Model::getInstance();
-    mod->setName(argv[3]);
-    ga.run(argv[3],argv[1],argv[2]);
+    QApplication a(argc, argv);
+    gui mainWindow;
+    mainWindow.show();
     qDebug()<<"execution started";
     return a.exec();
 }

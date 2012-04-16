@@ -15,9 +15,9 @@ public:
     Player(QVariantMap map);
     Player();
 
-    int getLife();
-    int getDeaths();
-    int getKills();
+    int getLife() const;
+    int getDeaths() const;
+    int getKills() const;
     void update(QVariantMap map);
     QString getName() const;
 

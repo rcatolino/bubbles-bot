@@ -3,10 +3,12 @@
 #include "networkclient.h"
 #include "gameapp.h"
 
-GameApp::GameApp(QObject *parent) :
+GameApp::GameApp(QString name, QObject *parent) :
     QObject(parent)
 {
     lastTarget=0;
+    mod=new Model;
+    mod->setName(name);
 }
 
 void GameApp::up()
@@ -14,7 +16,7 @@ void GameApp::up()
     const Player * target;
     const Player * self;
     float svx, svy, svz;
-    Model * mod = Model::getInstance();
+    //Model * mod = Model::getInstance();
     QList<Player> players(mod->getUpdatedPlayers());
     int nbPlayers = players.size();
     if (nbPlayers > 1){
@@ -42,41 +44,51 @@ void GameApp::up()
         //qDebug() << "No target";
     }
 }
+const QString & GameApp::getName() const
+{
+    return mod->getName();
+}
+int GameApp::getKills() const
+{
+    return mod->getSelf()->getKills();
+}
+int GameApp::getDeaths() const
+{
+    return mod->getSelf()->getDeaths();
+}
 void GameApp::changeCourse()
 {
-    Model * mod = Model::getInstance();
+    //Model * mod = Model::getInstance();
     const Player * target = mod->getBestPlayer();
     qDebug() << "target name :" << target->getName();
     const Player * self = mod->getSelf();
     if (self!=target){
         mod->shot(target->getX()-self->getX(),target->getY()-self->getY(),target->getZ()-self->getZ());
     }
+    dir=qrand()%4;
+    qDebug() << "direction" << dir;
     switch (dir){
         case 0 :
             mod->updateKeys("UP",false);
             mod->updateKeys("LEFT",true);
-            dir++;
             break;
         case 1 :
             mod->updateKeys("LEFT",false);
             mod->updateKeys("UP",true);
-            dir++;
             break;
         case 2 :
             mod->updateKeys("UP",false);
             mod->updateKeys("RIGHT",true);
-            dir++;
             break;
         case 3 :
             mod->updateKeys("RIGHT",false);
             mod->updateKeys("UP",true);
-            dir=(dir+1)%4;
             break;
     }
 }
 void GameApp::chooseDirection()
 {
-    Model * mod = Model::getInstance();
+    //Model * mod = Model::getInstance();
     QList<Obstacles> obstacles = mod->getUpdatedObstacles();
     Obstacles * ob;
     const Player * self = mod->getSelf();
@@ -96,24 +108,27 @@ void GameApp::chooseDirection()
     }
     if (minId>-1) {
         ob=&obstacles[minId];
-        nc->sendMouseState(self->getX()-ob->getX(),self->getY()-ob->getY(),self->getZ()-ob->getZ());
+        int aleax = qrand()%150 - 75;
+        int aleay = qrand()%150 - 75;
+        int aleaz = qrand()%150 - 75;
+        nc->sendMouseState(self->getX()-ob->getX()+aleax,self->getY()-ob->getY()+aleay,self->getZ()-ob->getZ()+aleaz);
     }
     mod->updateKeys("UP",true);
 }
 void GameApp::run(QString name, QString server, QString port)
 {
-    Model * mod = Model::getInstance();
+    //Model * mod = Model::getInstance();
     dir=0;
     QTimer * posTimer = new QTimer;
     connect(posTimer,SIGNAL(timeout()),this,SLOT(changeCourse()));
     posTimer->start(1500);
     QTimer * shotTimer = new QTimer;
     connect(shotTimer,SIGNAL(timeout()),this,SLOT(up()));
-    shotTimer->start(140);
+    shotTimer->start(240);
     QTimer * dirTimer = new QTimer;
     connect(dirTimer,SIGNAL(timeout()),this,SLOT(chooseDirection()));
     dirTimer->start(100);
-    nc = new NetworkClient(this);
+    nc = new NetworkClient(mod,this);
     nc->startOn(server,port.toShort());
     qDebug() << "Bot '" << name <<"' connected on server " << server <<":"<< port;
     mod->updateKeys("UP",true);

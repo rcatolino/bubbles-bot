@@ -25,18 +25,18 @@ void Player::update(QVariantMap map)
     if (map.contains("kills"))
         kills = map["kills"].toInt();
 }
-int Player::getLife()
+int Player::getLife() const
 {
     return life;
 }
 
-int Player::getKills()
+int Player::getKills() const
 {
     return kills;
 }
 
 
-int Player::getDeaths()
+int Player::getDeaths() const
 {
     return deaths;
 }

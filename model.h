@@ -21,7 +21,8 @@ class Model: public QObject
 public:
     int mapWidth, mapLength;
 
-    static Model * getInstance();
+    Model();
+    //static Model * getInstance();
     void addUpdatedPlayer(Player);
     void setUpdatedPlayers(QString json);
     QList<Player> getUpdatedPlayers();
@@ -33,7 +34,7 @@ public:
     void setUpdatedObstacles(QString json);
     QList<Obstacles> getUpdatedObstacles();
     void setName(QString n);
-    QString getName();
+    QString & getName();
     void setColor(QColor c);
     QColor getColor();
     void updateKeys(QString name, bool state);
@@ -54,8 +55,7 @@ public:
 
 
 private:
-    static Model * instance;
-    Model();
+   // static Model * instance;
     QMap<QString, Player*> players;
     QMap<QString, Bullet*> bullets;
     QMap<QString, Obstacles*> obstacles;

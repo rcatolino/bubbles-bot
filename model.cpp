@@ -5,7 +5,7 @@
 
 #include "model.h"
 
-Model* Model::instance = NULL;
+//Model* Model::instance = NULL;
 
 Model::Model()
 {
@@ -35,6 +35,7 @@ const Player * Model::getBestPlayer()
     }
    return bp;
 }
+/*
 Model* Model::getInstance()
 {
     if (Model::instance == NULL)
@@ -44,7 +45,7 @@ Model* Model::getInstance()
 
     return Model::instance;
 }
-
+*/
 
 QList<Player> Model::getUpdatedPlayers()
 {
@@ -199,7 +200,7 @@ void Model::setName(QString n)
     name = n;
 }
 
-QString Model::getName()
+QString & Model::getName()
 {
     QMutexLocker locker(&mutex);
     return name;
@@ -261,11 +262,12 @@ bool Model::freeWay(const Actor * self, const Actor * target) const
     {
         v1=vector(self)-vector(ob);
         v2=vector(self)-vector(target);
-        dp=v1.dotProduct(v2);
-        cos=dp/(v1.norm()*v2.norm());
-        if (cos >0.90 && (v1.norm()+self->getWidth()/2) < v2.norm())
+        dp=v1.dotProduct(v2)    ;
+        cos=(dp/(v1.norm()*v2.norm()))+1/(10*v1.norm());
+        if (cos >0.95 && (v1.norm()+self->getWidth()/2) < v2.norm())
         {
             //qDebug() << "distance bot<->player :" << v2.norm() << "distance bot<->obtacle :" << v1.norm();
+
             free=false;
         }
     }

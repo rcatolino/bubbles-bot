@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core \
-         += network
+QT       += core gui network\
 
 #QT       -= gui
 
@@ -24,7 +23,9 @@ SOURCES += main.cpp \
     bullet.cpp \
     actor.cpp \
     gameapp.cpp \
-    vector.cpp
+    vector.cpp \
+    gui.cpp \
+    bots.cpp
 
 HEADERS += \
     networkclient.h \
@@ -34,6 +35,11 @@ HEADERS += \
     bullet.h \
     actor.h \
     gameapp.h \
-    vector.h
+    vector.h \
+    gui.h \
+    bots.h
 
 unix|win32: LIBS += -lqjson
+
+FORMS += \
+    gui.ui

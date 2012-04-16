@@ -1,6 +1,7 @@
 #ifndef NETWORKCLIENT_H
 #define NETWORKCLIENT_H
 
+#include "model.h"
 #include <QObject>
 #include <QtNetwork>
 
@@ -8,7 +9,7 @@ class NetworkClient : public QObject
 {
     Q_OBJECT
 public:
-    explicit NetworkClient(QObject *parent = 0);
+    explicit NetworkClient(Model * mod,QObject *parent = 0);
     void send(QString mess);
     void setName(QString name);
     void startOn(QString host, qint16 port);
@@ -27,6 +28,7 @@ private:
     QTcpSocket * sock;
     QString name;
     QString messages;
+    Model * m;
 };
 
 #endif // NETWORKCLIENT_H

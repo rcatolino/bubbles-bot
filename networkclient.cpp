@@ -5,14 +5,13 @@
 #include <qjson/serializer.h>
 
 #include "networkclient.h"
-#include "model.h"
 #include "player.h"
 
-NetworkClient::NetworkClient(QObject *parent) :
-    QObject(parent)
+NetworkClient::NetworkClient(Model * mod, QObject *parent) :
+    QObject(parent), m(mod)
 {
     sock = new QTcpSocket(this);
-    Model * m = Model::getInstance();
+    //Model * m = Model::getInstance();
     name = m->getName();
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
@@ -125,7 +124,7 @@ void NetworkClient::processIncommingData()
 
         for(int i=0; i < toProcess.size() - 1; i++)
         {
-            Model * m = Model::getInstance();
+            //Model * m = Model::getInstance();
 
             if (toProcess[i].contains("field"))
             {

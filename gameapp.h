@@ -2,14 +2,18 @@
 #define GAMEAPP_H
 
 #include <QObject>
+#include "model.h"
 #include "networkclient.h"
 
 class GameApp : public QObject
 {
     Q_OBJECT
 public:
-    explicit GameApp(QObject *parent = 0);
+    explicit GameApp(QString name, QObject *parent = 0);
     void run(QString name, QString server, QString port);
+    const QString & getName() const;
+    int getKills() const;
+    int getDeaths() const;
 
 signals:
 public slots:
@@ -18,9 +22,11 @@ public slots:
     void chooseDirection();
 
  private:
+    Model * mod;
     NetworkClient * nc;
     int lastTarget;
     int dir;
+
 };
 
 #endif // GAMEAPP_H
