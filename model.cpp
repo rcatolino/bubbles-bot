@@ -10,11 +10,18 @@
 Model::Model()
 {
 }
-
 const Player * Model::getSelf()
 {
     QString sid;
     sid.setNum(id);
+    Player * coucou = players[sid];
+    qDebug() << "lol" << coucou;
+    if (coucou==0)
+    {
+        players[sid]=new Player();
+        players[sid]->deaths=0;
+        players[sid]->kills=0;
+    }
     return players[sid];
 }
 const Player * Model::getBestPlayer()
@@ -103,7 +110,6 @@ void Model::setUpdatedPlayers(QString json)
             }
             life = obj.toMap()["life"].toInt();
         }
-
         updatePlayer(obj);
     }
 }
@@ -240,7 +246,7 @@ QList<Player> Model::getAllPlayers()
 }
 
 QList<QString> Model::getClearedActors(){
-    QMutexLocker locker(&mutex);
+    QMutexLocker locker(&mutex);trolobot54
     QList<QString> ret = toClear.toList();
 
     ////qDebug() << "getClearedActors " << ret;

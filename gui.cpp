@@ -8,7 +8,6 @@ gui::gui(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tvbots->setModel(&botList);
-    ui->tvbots->show();
     connect(ui->pbaddbot,SIGNAL(clicked()),this,SLOT(addBots()));
     connect(ui->pbquit,SIGNAL(clicked()),this,SLOT(quit()));
 }
@@ -52,4 +51,6 @@ void gui::createBot(QString name)
     } else {
         qDebug() << "Bot already playing :" << name;
     }
+    QModelIndex a;
+    qDebug() << "table view columns :" << botList.columnCount(a) << "rows :" << botList.rowCount(a);
 }

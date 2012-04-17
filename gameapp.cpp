@@ -50,6 +50,7 @@ const QString & GameApp::getName() const
 }
 int GameApp::getKills() const
 {
+    qDebug() << "Kill";
     return mod->getSelf()->getKills();
 }
 int GameApp::getDeaths() const
